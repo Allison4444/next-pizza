@@ -1,15 +1,21 @@
+'use client';
+
 import React from 'react';
 import { Title } from './title';
 import { FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui';
 import { RangeSlider } from './range-slider';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
+import { useFilterIngredients } from '@/hooks';
 
 interface Props {
   className?: string;
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
+  const { ingredients } = useFilterIngredients();
+  console.log('ingredients', ingredients);
+
   return (
     <div className={className}>
       <Title text="Фильтрация" size="sm" className="mb-5 font-bold" />
@@ -30,26 +36,30 @@ export const Filters: React.FC<Props> = ({ className }) => {
         title="Ингридиенты"
         className="mt-8"
         limit={6}
-        items={[
-          { text: 'Сырный соус', value: '1' },
-          { text: 'Моццарелла', value: '2' },
-          { text: 'Чеснок', value: '3' },
-          { text: 'Солёные огурчики', value: '4' },
-          { text: 'Красный лук', value: '5' },
-          { text: 'Томаты', value: '6' },
-          { text: 'Сырный соус', value: '1' },
-          { text: 'Моццарелла', value: '2' },
-          { text: 'Чеснок', value: '3' },
-          { text: 'Солёные огурчики', value: '4' },
-          { text: 'Красный лук', value: '5' },
-          { text: 'Томаты', value: '6' },
-          { text: 'Сырный соус', value: '1' },
-          { text: 'Моццарелла', value: '2' },
-          { text: 'Чеснок', value: '3' },
-          { text: 'Солёные огурчики', value: '4' },
-          { text: 'Красный лук', value: '5' },
-          { text: 'Томаты', value: '6' },
-        ]}
+        items={ingredients.map((item) => ({
+          text: item.name,
+          value: String(item.id),
+        }))}
+        // items={[
+        //   { text: 'Сырный соус', value: '1' },
+        //   { text: 'Моццарелла', value: '2' },
+        //   { text: 'Чеснок', value: '3' },
+        //   { text: 'Солёные огурчики', value: '4' },
+        //   { text: 'Красный лук', value: '5' },
+        //   { text: 'Томаты', value: '6' },
+        //   { text: 'Сырный соус', value: '1' },
+        //   { text: 'Моццарелла', value: '2' },
+        //   { text: 'Чеснок', value: '3' },
+        //   { text: 'Солёные огурчики', value: '4' },
+        //   { text: 'Красный лук', value: '5' },
+        //   { text: 'Томаты', value: '6' },
+        //   { text: 'Сырный соус', value: '1' },
+        //   { text: 'Моццарелла', value: '2' },
+        //   { text: 'Чеснок', value: '3' },
+        //   { text: 'Солёные огурчики', value: '4' },
+        //   { text: 'Красный лук', value: '5' },
+        //   { text: 'Томаты', value: '6' },
+        // ]}
         defaultItems={[
           { text: 'Сырный соус', value: '1' },
           { text: 'Моццарелла', value: '2' },
