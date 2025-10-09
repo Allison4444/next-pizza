@@ -1,5 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  engineType    = "binary"
+  binaryTargets = ["windows"]
 }
 
 datasource db {
@@ -14,13 +16,15 @@ model User {
   fullName String
   email    String    @unique
   password String
+  role     UserRole  @default(USER)
   verified DateTime?
 
   provider   String?
   providerId String?
 
-  cart   Cart?
-  orders Order[]
+  cart             Cart?
+  orders           Order[]
+  verificationCode VerificationCode?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -135,8 +139,26 @@ model Order {
   updatedAt DateTime @updatedAt
 }
 
+model VerificationCode {
+  id Int @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  code String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, code])
+}
+
 enum OrderStatus {
   PENDING
   SUCCEEDED
   CANCELLED
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
